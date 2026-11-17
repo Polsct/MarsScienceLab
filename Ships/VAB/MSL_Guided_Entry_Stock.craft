@@ -1,0 +1,1767 @@
+ship = MSL_Guided_Entry (stock)
+version = 1.12.5
+description = Complete MSL guided-entry stack: cruise stage with solar array, backshell and parachute, heat shield, Sky Crane, stowed Curiosity, 2 cruise and 6 entry balance masses. Enable entry guidance from the backshell menu.
+type = VAB
+size = 2.8125,2.8125,2.8125
+steamPublishedFileId = 0
+persistentId = 2306219178
+rot = 0,0,0,1
+missionFlag = Squad/Flags/default
+vesselType = Probe
+PART
+{
+	part = MSL.Backshell_4292327306
+	partName = Part
+	persistentId = 203324526
+	pos = 0.000000,6.000000,0.000000
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,3.750000,0.000000
+	rot = 0,0,0,1
+	attRot = 0,0,0,1
+	attRot0 = 0,0,0,1
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	link = MSL.HeatShield_4290456408
+	link = MSL.SkyCrane_4294703555
+	link = MSL.CruiseStage_4292757229
+	link = MSL.AS.Parachute_4293129012
+	link = MSL.EBMD_4293937003
+	link = MSL.EBMD_4291182567
+	link = MSL.EBMD_4292034397
+	link = MSL.EBMD_4294787732
+	link = MSL.EBMD_4292732724
+	link = MSL.EBMD_4292428106
+	link = MSL.CBMD_4291723010
+	link = MSL.CBMD_4293476411
+	attN = top,MSL.HeatShield_4290456408_0.0000000000|0.0000000000|0.0000000000
+	attN = payload,MSL.SkyCrane_4294703555_0.0000000000|-0.8093750000|0.0000000000
+	attN = bottom,MSL.CruiseStage_4292757229_0.0000000000|-0.8490625000|0.0000000000
+	attN = mortar,MSL.AS.Parachute_4293129012_0.0000000000|-0.8565625000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.HeatShield_4290456408
+	partName = Part
+	persistentId = 1193467140
+	pos = 0.000000,6.000000,0.000000
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,0.000000,0.000000
+	rot = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = bottom,MSL.Backshell_4292327306_0.0000000000|0.0000000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SkyCrane_4294703555
+	partName = Part
+	persistentId = 1345123963
+	pos = 0.000000,5.190625,0.000000
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,-0.809375,0.000000
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	link = MSL.Curiosity_4291406646
+	link = MSL.SC.MLE_4293106021
+	link = MSL.SC.MLE_4293849326
+	link = MSL.SC.MLE_4290367629
+	link = MSL.SC.MLE_4291327611
+	link = MSL.SC.MLE_4293106518
+	link = MSL.SC.MLE_4292551664
+	link = MSL.SC.MLE_4293771124
+	link = MSL.SC.MLE_4291931186
+	link = MSL.SC.PropTank_4292815107
+	link = MSL.SC.PropTank_4294844460
+	link = MSL.SC.PropTank_4294362218
+	link = MSL.SC.RCS_4292325031
+	link = MSL.SC.RCS_4292995448
+	link = MSL.SC.RCS_4291762950
+	link = MSL.SC.RCS_4292024789
+	attN = top,MSL.Backshell_4292327306_0.0000000000|0.0000000000|0.0000000000
+	attN = bottom,MSL.Curiosity_4291406646_0.0000000000|-0.7488125000|0.0000000000
+	attN = mle1,MSL.SC.MLE_4293106021_0.5993750000|-0.5747500000|0.7521875000
+	attN = mle2,MSL.SC.MLE_4293849326_0.4662500000|-0.5678750000|0.8300625000
+	attN = mle3,MSL.SC.MLE_4290367629_0.5993750000|-0.5747500000|-0.7521875000
+	attN = mle4,MSL.SC.MLE_4291327611_0.4662500000|-0.5678750000|-0.8300625000
+	attN = mle5,MSL.SC.MLE_4293106518_-0.5993750000|-0.5747500000|0.7521875000
+	attN = mle6,MSL.SC.MLE_4292551664_-0.4662500000|-0.5678750000|0.8300625000
+	attN = mle7,MSL.SC.MLE_4293771124_-0.5993750000|-0.5747500000|-0.7521875000
+	attN = mle8,MSL.SC.MLE_4291931186_-0.4662500000|-0.5678750000|-0.8300625000
+	attN = tank1,MSL.SC.PropTank_4292815107_0.3766250000|-0.5056250000|0.0000000000
+	attN = tank2,MSL.SC.PropTank_4294844460_-0.1883125000|-0.5056250000|0.3261875000
+	attN = tank3,MSL.SC.PropTank_4294362218_-0.1883125000|-0.5056250000|-0.3261875000
+	attN = rcsFL,MSL.SC.RCS_4292325031_0.5353125000|-0.1757500000|0.6138125000
+	attN = rcsFR,MSL.SC.RCS_4292995448_0.5353125000|-0.1757500000|-0.6138125000
+	attN = rcsAL,MSL.SC.RCS_4291762950_-0.5353125000|-0.1757500000|0.6138125000
+	attN = rcsAR,MSL.SC.RCS_4292024789_-0.5353125000|-0.1757500000|-0.6138125000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity_4291406646
+	partName = Part
+	persistentId = 1470995852
+	pos = 0.000000,6.637563,0.000000
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,-1.446938,0.000000
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	link = MSL.Curiosity.Arm_4293381706
+	link = MSL.Curiosity.Mast_4291091064
+	link = MSL.Curiosity.Wheel_4293161509
+	link = MSL.Curiosity.Wheel_4290836662
+	link = MSL.Curiosity.Wheel_4294097915
+	link = MSL.Curiosity.Wheel_4290605821
+	link = MSL.Curiosity.Wheel_4291184516
+	link = MSL.Curiosity.Wheel_4294717364
+	link = MSL.Curiosity.XBand_4292759910
+	link = MSL.Curiosity.UHF_4294889935
+	link = MSL.Curiosity.MMRTG_4294356600
+	attN = skycrane,MSL.SkyCrane_4294703555_0.0000000000|0.6981250000|0.0000000000
+	attN = ArmAzimuth,MSL.Curiosity.Arm_4293381706_0.6955318125|0.6237812713|0.2821873688
+	attN = MastFold,MSL.Curiosity.Mast_4291091064_0.4471932725|0.7658778125|-0.3488827494
+	attN = WheelFL,MSL.Curiosity.Wheel_4293161509_0.6828676938|0.1562500000|0.6616473187
+	attN = WheelML,MSL.Curiosity.Wheel_4290836662_-0.0556247495|0.1562500000|0.7430328438
+	attN = WheelRL,MSL.Curiosity.Wheel_4294097915_-0.7267221062|0.1562500000|0.6613668812
+	attN = WheelFR,MSL.Curiosity.Wheel_4290605821_0.6843181687|0.1562500000|-0.6643072500
+	attN = WheelMR,MSL.Curiosity.Wheel_4291184516_-0.0556250848|0.1562500000|-0.7460331937
+	attN = WheelRR,MSL.Curiosity.Wheel_4294717364_-0.7282775625|0.1562500000|-0.6643668563
+	attN = XBand,MSL.Curiosity.XBand_4292759910_-0.3397227081|0.7511904062|0.2612105619
+	attN = UHF,MSL.Curiosity.UHF_4294889935_-0.6769011188|0.8851303187|-0.3155791762
+	attN = MMRTG,MSL.Curiosity.MMRTG_4294356600_-0.7549881375|0.4705090819|-0.0000001211
+	MODULE
+	{
+		name = ModuleCuriosityRig
+		stowed = True
+		deployed = False
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.CruiseStage_4292757229
+	partName = Part
+	persistentId = 2473941785
+	pos = 0.000000,5.238437,0.000000
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,-0.761562,0.000000
+	rot = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	link = MSL.CS.Tank_4292286491
+	link = MSL.CS.Tank_4293743761
+	link = MSL.CS.REACluster_4293569882
+	link = MSL.CS.REACluster_4294492806
+	attN = top,MSL.Backshell_4292327306_0.0000000000|-0.0875000000|0.0000000000
+	attN = tank1,MSL.CS.Tank_4292286491_0.0000000000|-0.0723125000|1.0206250000
+	attN = tank2,MSL.CS.Tank_4293743761_0.0000000000|-0.0723125000|-1.0206250000
+	attN = cluster1,MSL.CS.REACluster_4293569882_0.8921875000|0.2433125000|0.8921875000
+	attN = cluster2,MSL.CS.REACluster_4294492806_-0.8921875000|0.2433125000|-0.8921875000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.AS.Parachute_4293129012
+	partName = Part
+	persistentId = 3793479656
+	pos = 0.000000,5.143438,0.000000
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,-0.856563,0.000000
+	rot = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Backshell_4292327306_0.0000000000|0.0000000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.EBMD_4293937003
+	partName = Part
+	persistentId = 3976879360
+	pos = -0.665168,5.920136,-1.152106
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.665168,-0.079864,-1.152106
+	rot = 0.4309940048,0.2316260640,-0.1154844912,0.8644402042
+	attRot = 0,0,0,1
+	attRot0 = 0.4309940048,0.2316260640,-0.1154844912,0.8644402042
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 1
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	srfN = srfAttach, MSL.Backshell_4292327306
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.EBMD_4291182567
+	partName = Part
+	persistentId = 351807157
+	pos = -0.455002,5.920136,-1.250108
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.455002,-0.079864,-1.250108
+	rot = 0.4394190379,0.1554037207,-0.0774814349,0.8813383119
+	attRot = 0,0,0,1
+	attRot0 = 0.4394190379,0.1554037207,-0.0774814349,0.8813383119
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 1
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	srfN = srfAttach, MSL.Backshell_4292327306
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.EBMD_4292034397
+	partName = Part
+	persistentId = 519070414
+	pos = -0.231011,5.920136,-1.310126
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.231011,-0.079864,-1.310126
+	rot = 0.4444998202,0.0779986679,-0.0388887003,0.8915289040
+	attRot = 0,0,0,1
+	attRot0 = 0.4444998202,0.0779986679,-0.0388887003,0.8915289040
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 1
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	srfN = srfAttach, MSL.Backshell_4292327306
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.EBMD_4294787732
+	partName = Part
+	persistentId = 1612746297
+	pos = 0.231011,5.920136,-1.310126
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.231011,-0.079864,-1.310126
+	rot = 0.4444998202,-0.0779986679,0.0388887003,0.8915289040
+	attRot = 0,0,0,1
+	attRot0 = 0.4444998202,-0.0779986679,0.0388887003,0.8915289040
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 1
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	srfN = srfAttach, MSL.Backshell_4292327306
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.EBMD_4292732724
+	partName = Part
+	persistentId = 1878248904
+	pos = 0.455002,5.920136,-1.250108
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.455002,-0.079864,-1.250108
+	rot = 0.4394190379,-0.1554037207,0.0774814349,0.8813383119
+	attRot = 0,0,0,1
+	attRot0 = 0.4394190379,-0.1554037207,0.0774814349,0.8813383119
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 1
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	srfN = srfAttach, MSL.Backshell_4292327306
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.EBMD_4292428106
+	partName = Part
+	persistentId = 2642880119
+	pos = 0.665168,5.920136,-1.152106
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.665168,-0.079864,-1.152106
+	rot = 0.4309940048,-0.2316260640,0.1154844912,0.8644402042
+	attRot = 0,0,0,1
+	attRot0 = 0.4309940048,-0.2316260640,0.1154844912,0.8644402042
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 1
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	srfN = srfAttach, MSL.Backshell_4292327306
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.CBMD_4291723010
+	partName = Part
+	persistentId = 3328538252
+	pos = 0.136327,5.924629,1.326736
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.136327,-0.075371,1.326736
+	rot = 0.0228341201,-0.8937617460,0.4456131418,0.0457981672
+	attRot = 0,0,0,1
+	attRot0 = 0.0228341201,-0.8937617460,0.4456131418,0.0457981672
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 1
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	srfN = srfAttach, MSL.Backshell_4292327306
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.CBMD_4293476411
+	partName = Part
+	persistentId = 3745223581
+	pos = -0.136327,5.924629,1.326736
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.136327,-0.075371,1.326736
+	rot = 0.0228341201,0.8937617460,-0.4456131418,0.0457981672
+	attRot = 0,0,0,1
+	attRot0 = 0.0228341201,0.8937617460,-0.4456131418,0.0457981672
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 1
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	srfN = srfAttach, MSL.Backshell_4292327306
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.MLE_4293106021
+	partName = Part
+	persistentId = 1225083948
+	pos = -0.752188,5.765375,-0.599375
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.599375,-0.574750,0.752188
+	rot = 0.6935199293,0.1379496563,-0.6935199293,0.1379496563
+	attRot = 0,0,0,1
+	attRot0 = -0.1950902749,0.0000000000,0.0000000000,0.9807852898
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Outboard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.MLE_4293849326
+	partName = Part
+	persistentId = 556271995
+	pos = -0.830063,5.758500,-0.466250
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.466250,-0.567875,0.830063
+	rot = 0.7064337725,0.0308435586,-0.7064337725,0.0308435586
+	attRot = 0,0,0,1
+	attRot0 = -0.0436193789,0.0000000000,0.0000000000,0.9990482220
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Inboard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.MLE_4290367629
+	partName = Part
+	persistentId = 3688921541
+	pos = 0.752188,5.765375,-0.599375
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.599375,-0.574750,-0.752188
+	rot = -0.6935198990,0.1379496503,-0.6935199596,-0.1379496624
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000085,-0.9807852898,-0.1950902749,0.0000000429
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Outboard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.MLE_4291327611
+	partName = Part
+	persistentId = 1299237553
+	pos = 0.830063,5.758500,-0.466250
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.466250,-0.567875,-0.830063
+	rot = -0.7064337416,0.0308435573,-0.7064338034,-0.0308435600
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000019,-0.9990482220,-0.0436193789,0.0000000437
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Inboard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.MLE_4293106518
+	partName = Part
+	persistentId = 573766995
+	pos = -0.752188,5.765375,0.599375
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.599375,-0.574750,0.752188
+	rot = 0.6935199293,0.1379496563,-0.6935199293,0.1379496563
+	attRot = 0,0,0,1
+	attRot0 = -0.1950902749,0.0000000000,0.0000000000,0.9807852898
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Outboard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.MLE_4292551664
+	partName = Part
+	persistentId = 153212466
+	pos = -0.830063,5.758500,0.466250
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.466250,-0.567875,0.830063
+	rot = 0.7064337725,0.0308435586,-0.7064337725,0.0308435586
+	attRot = 0,0,0,1
+	attRot0 = -0.0436193789,0.0000000000,0.0000000000,0.9990482220
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Inboard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.MLE_4293771124
+	partName = Part
+	persistentId = 2380357177
+	pos = 0.752188,5.765375,0.599375
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.599375,-0.574750,-0.752188
+	rot = -0.6935198990,0.1379496503,-0.6935199596,-0.1379496624
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000085,-0.9807852898,-0.1950902749,0.0000000429
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Outboard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.MLE_4291931186
+	partName = Part
+	persistentId = 2185745249
+	pos = 0.830063,5.758500,0.466250
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.466250,-0.567875,-0.830063
+	rot = -0.7064337416,0.0308435573,-0.7064338034,-0.0308435600
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000019,-0.9990482220,-0.0436193789,0.0000000437
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Inboard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.PropTank_4292815107
+	partName = Part
+	persistentId = 2006511800
+	pos = 0.000000,5.456250,-0.376625
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.376625,-0.265625,0.000000
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|-0.2400000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.PropTank_4294844460
+	partName = Part
+	persistentId = 3639092335
+	pos = -0.326188,5.456250,0.188312
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.188312,-0.265625,0.326188
+	rot = -0.2588189877,0.0000000000,-0.9659258417,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,-0.8660253741,0.0000000000,0.5000000514
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|-0.2400000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.PropTank_4294362218
+	partName = Part
+	persistentId = 1241976194
+	pos = 0.326188,5.456250,0.188312
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.188312,-0.265625,-0.326188
+	rot = 0.9659258216,0.0000000000,0.2588190625,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.8660254128,0.0000000000,0.4999999844
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|-0.2400000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.RCS_4292325031
+	partName = Part
+	persistentId = 2769277911
+	pos = -0.613812,5.366375,-0.535313
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.535313,-0.175750,0.613812
+	rot = 0.9304972498,-0.2410629911,0.2505322602,-0.1153130046
+	attRot = 0,0,0,1
+	attRot0 = 0.2519958832,0.8351139753,0.0889186681,0.4808078551
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = FL_AR
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.RCS_4292995448
+	partName = Part
+	persistentId = 3301023696
+	pos = 0.613812,5.366375,-0.535313
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.535313,-0.175750,-0.613812
+	rot = 0.9304977865,0.2410613973,-0.2505323261,-0.1153118626
+	attRot = 0,0,0,1
+	attRot0 = -0.0889183487,0.4808081880,-0.2519939487,0.8351144014
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = FR_AL
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.RCS_4291762950
+	partName = Part
+	persistentId = 300888627
+	pos = -0.613812,5.366375,0.535313
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.535313,-0.175750,0.613812
+	rot = -0.2505323261,-0.1153118626,-0.9304977865,-0.2410613973
+	attRot = 0,0,0,1
+	attRot0 = 0.2519939487,-0.8351144014,-0.0889183487,0.4808081880
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = FR_AL
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.SC.RCS_4292024789
+	partName = Part
+	persistentId = 859503243
+	pos = 0.613812,5.366375,0.535313
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.535313,-0.175750,-0.613812
+	rot = 0.2505322602,-0.1153130046,-0.9304972498,0.2410629911
+	attRot = 0,0,0,1
+	attRot0 = -0.0889186681,-0.4808078551,0.2519958832,0.8351139753
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.SkyCrane_4294703555_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = FL_AR
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.CS.Tank_4292286491
+	partName = Part
+	persistentId = 2334639778
+	pos = 0.000000,5.166125,1.020625
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,-0.072313,1.020625
+	rot = 0.0000000000,-0.7071067812,0.0000000000,0.7071067812
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,-0.7071067812,0.0000000000,0.7071067812
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.CruiseStage_4292757229_0.0000000000|0.0000000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.CS.Tank_4293743761
+	partName = Part
+	persistentId = 3184722956
+	pos = 0.000000,5.166125,-1.020625
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,-0.072313,-1.020625
+	rot = 0.0000000000,0.7071067812,0.0000000000,0.7071067812
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.7071067812,0.0000000000,0.7071067812
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.CruiseStage_4292757229_0.0000000000|0.0000000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.CS.REACluster_4293569882
+	partName = Part
+	persistentId = 775947598
+	pos = 0.892188,5.481750,0.892188
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.892188,0.243312,0.892188
+	rot = -0.6532814824,0.2705980501,0.2705980501,0.6532814824
+	attRot = 0,0,0,1
+	attRot0 = -0.6532814824,0.2705980501,0.2705980501,0.6532814824
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.CruiseStage_4292757229_0.0000000000|0.0000000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.CS.REACluster_4294492806
+	partName = Part
+	persistentId = 3855713952
+	pos = -0.892188,5.481750,-0.892188
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.892188,0.243312,-0.892188
+	rot = 0.2705980501,0.6532814824,0.6532814824,-0.2705980501
+	attRot = 0,0,0,1
+	attRot0 = 0.2705980501,0.6532814824,0.6532814824,-0.2705980501
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.CruiseStage_4292757229_0.0000000000|0.0000000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.Arm_4293381706
+	partName = Part
+	persistentId = 1316330312
+	pos = 0.000000,6.637563,0.000000
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,0.000000,0.000000
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.6955318125|0.6237812713|0.2821873688
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.Mast_4291091064
+	partName = Part
+	persistentId = 1401386321
+	pos = 0.000000,6.637563,0.000000
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.000000,0.000000,0.000000
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.4471932725|0.7658778125|-0.3488827494
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.Wheel_4293161509
+	partName = Part
+	persistentId = 2486340653
+	pos = -0.661647,6.481313,-0.682868
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.682868,0.156250,0.661647
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Standard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.Wheel_4290836662
+	partName = Part
+	persistentId = 2366984201
+	pos = -0.743033,6.481313,0.055625
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.055625,0.156250,0.743033
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Standard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.Wheel_4294097915
+	partName = Part
+	persistentId = 3419561648
+	pos = -0.661367,6.481313,0.726722
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.726722,0.156250,0.661367
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Standard
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.Wheel_4290605821
+	partName = Part
+	persistentId = 2479859396
+	pos = 0.664307,6.481313,-0.684318
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = 0.684318,0.156250,-0.664307
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Mirrored
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.Wheel_4291184516
+	partName = Part
+	persistentId = 1277423748
+	pos = 0.746033,6.481313,0.055625
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.055625,0.156250,-0.746033
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Mirrored
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.Wheel_4294717364
+	partName = Part
+	persistentId = 3364995412
+	pos = 0.664367,6.481313,0.728278
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.728278,0.156250,-0.664367
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.0000000000|0.0000000000|0.0000000000
+	MODULE
+	{
+		name = ModulePartVariants
+		selectedVariant = Mirrored
+	}
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.XBand_4292759910
+	partName = Part
+	persistentId = 2549733744
+	pos = -0.261211,5.886372,0.339723
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.339723,0.751190,0.261211
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.0000000000|0.0000000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.UHF_4294889935
+	partName = Part
+	persistentId = 1291272204
+	pos = 0.315579,5.752432,0.676901
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.676901,0.885130,-0.315579
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.0000000000|0.0000000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}
+PART
+{
+	part = MSL.Curiosity.MMRTG_4294356600
+	partName = Part
+	persistentId = 3511201860
+	pos = 0.000000,6.167053,0.754988
+	attPos = 0.000000,0.000000,0.000000
+	attPos0 = -0.754988,0.470509,-0.000000
+	rot = 0.7071067812,0.0000000000,-0.7071067812,0.0000000000
+	attRot = 0,0,0,1
+	attRot0 = 0.0000000000,0.0000000000,0.0000000000,1.0000000000
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 0
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = top,MSL.Curiosity_4291406646_0.0000000000|0.0000000000|0.0000000000
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+	}
+	PARTDATA
+	{
+	}
+}

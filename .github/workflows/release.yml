@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v1.0.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          lfs: true
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - name: Check version
+        id: ver
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          V=$(jq -r '.VERSION | "\(.MAJOR).\(.MINOR).\(.PATCH)"' GameData/MarsScienceLab/MarsScienceLab.version)
+          if [ "v$V" != "$TAG" ]; then
+            echo "::error::Tag $TAG does not match MarsScienceLab.version ($V)"; exit 1
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Check files
+        run: |
+          for f in MSLAeroshell MSLSkyCrane MSLCuriosity; do
+            test -s "GameData/MarsScienceLab/Plugins/$f.dll" || { echo "::error::missing $f.dll"; exit 1; }
+          done
+          if grep -rIl 'version https://git-lfs' GameData Ships; then
+            echo "::error::LFS pointer files in the package"; exit 1
+          fi
+
+      - name: Package
+        run: |
+          ZIP="MarsScienceLab-${{ steps.ver.outputs.version }}.zip"
+          mkdir -p dist
+          zip -r -9 "dist/$ZIP" GameData Ships
+          echo "ZIP=$ZIP" >> "$GITHUB_ENV"
+
+      - name: Release notes
+        run: |
+          awk -v v="${{ steps.ver.outputs.version }}" '
+            /^## / { if (p) exit; if (index($0, "## " v) == 1) { p = 1; next } }
+            p' CHANGELOG.md > dist/notes.md
+          test -s dist/notes.md || echo "Mars Science Lab ${{ steps.ver.outputs.version }}" > dist/notes.md
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.ver.outputs.tag }}" "dist/$ZIP" \
+            --title "Mars Science Lab ${{ steps.ver.outputs.version }}" \
+            --notes-file dist/notes.md

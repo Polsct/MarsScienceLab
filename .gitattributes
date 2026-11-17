@@ -1,0 +1,15 @@
+# Binary assets in Git LFS
+*.dds  filter=lfs diff=lfs merge=lfs -text
+*.mu   filter=lfs diff=lfs merge=lfs -text
+*.msq  filter=lfs diff=lfs merge=lfs -text
+*.dll  filter=lfs diff=lfs merge=lfs -text
+*.png  filter=lfs diff=lfs merge=lfs -text
+
+# Text line endings
+*.cs     text
+*.cfg    text
+*.craft  text
+*.md     text
+*.json   text
+*.sh     text eol=lf
+*.ps1    text eol=crlf
