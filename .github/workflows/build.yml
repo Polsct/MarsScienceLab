@@ -1,0 +1,59 @@
+name: Build
+
+# Compiles the three plugins against KSP 1.12.5 reference assemblies with their method bodies stripped
+# (KSPModdingLibs/KSPLibs, the same package ModuleManager and MechJeb2 build against).
+on:
+  push:
+    branches: [main]
+    paths: ['**/*.cs', '**/build_plugin.ps1', 'tools/plugin/csc_cached.ps1', '.github/workflows/build.yml']
+  pull_request:
+    paths: ['**/*.cs', '**/build_plugin.ps1', 'tools/plugin/csc_cached.ps1', '.github/workflows/build.yml']
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+env:
+  KSPLIBS_URL: https://github.com/KSPModdingLibs/KSPLibs/raw/529db6956a70a9e4fc0591382ff0fe4f55d96010/KSP-1.12.5.zip
+  KSPLIBS_SHA256: 144a73888645e4ec62af9cc0354d96a3b175bd694f2f463e5699ca391259b033
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+
+      - name: Download KSP reference assemblies
+        shell: pwsh
+        run: |
+          $zip = Join-Path $env:RUNNER_TEMP 'ksp.zip'
+          Invoke-WebRequest -Uri $env:KSPLIBS_URL -OutFile $zip -MaximumRetryCount 5 -RetryIntervalSec 5
+          $hash = (Get-FileHash -Algorithm SHA256 $zip).Hash
+          if ($hash -ne $env:KSPLIBS_SHA256) { throw "KSPLibs checksum mismatch: $hash" }
+          $root = Join-Path $env:RUNNER_TEMP 'ksp'
+          Expand-Archive $zip -DestinationPath $root
+          "KSP_ROOT=$root" >> $env:GITHUB_ENV
+
+      - name: Compile plugins
+        shell: pwsh
+        run: |
+          $out = 'GameData/MarsScienceLab/Plugins'
+          New-Item -ItemType Directory -Force $out | Out-Null
+          Get-ChildItem $out -Filter '*.dll' | Remove-Item
+          ./tools/plugin/build_plugin.ps1 -Force
+          ./SkyCrane/plugin/build_plugin.ps1 -Force
+          ./Curiosity/build_plugin.ps1 -Force
+          Get-ChildItem $out -Filter '*.dll' | Format-Table Name, Length
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: plugins
+          path: GameData/MarsScienceLab/Plugins/*.dll
+          if-no-files-found: error

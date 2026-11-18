@@ -109,6 +109,8 @@ $env:KSP_ROOT = 'C:\Games\Kerbal Space Program'
 
 Scripts skip the build when the sources are unchanged (`tools/plugin_stamps.json`); add `-Force` to rebuild, e.g. after a KSP update. Git Bash users can run `tools/plugin/build_plugin.sh <KSP folder>` and `SkyCrane/plugin/build_plugin.sh <KSP folder>` (no stamp check).
 
+GitHub Actions compiles all three on every change to the C# sources (`.github/workflows/build.yml`), against the stripped KSP 1.12.5 reference assemblies from [KSPLibs](https://github.com/KSPModdingLibs/KSPLibs). Releases package the DLLs built there.
+
 ## Modifying models and textures
 
 | | Tool |

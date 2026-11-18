@@ -13,7 +13,13 @@ permissions:
   contents: write
 
 jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      ref: ${{ github.event.inputs.tag || github.ref }}
+
   release:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -31,6 +37,12 @@ jobs:
           fi
           echo "version=$V" >> "$GITHUB_OUTPUT"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Use the CI-built plugins
+        uses: actions/download-artifact@v4
+        with:
+          name: plugins
+          path: GameData/MarsScienceLab/Plugins
 
       - name: Check files
         run: |
