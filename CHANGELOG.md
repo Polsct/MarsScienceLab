@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1 (2026-11-20)
+
+- Small fixes to the Curiosity rover and Sky Crane.
+- Patches run at `LAST[MarsScienceLab]` instead of `FINAL`.
+
 ## 1.0.0 (2026-11-17)
 
 First release, for KSP 1.12.x.

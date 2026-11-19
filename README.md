@@ -4,7 +4,7 @@
 
 **NASA's Mars Science Laboratory for Kerbal Space Program 1.12**
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.1-blue)](CHANGELOG.md)
 [![KSP](https://img.shields.io/badge/KSP-1.12.x-orange)](#requirements)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![Download](https://img.shields.io/badge/download-latest%20release-brightgreen)](../../releases/latest)

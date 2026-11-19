@@ -4,11 +4,11 @@ using System.Reflection;
 
 [assembly: AssemblyProduct("Mars Science Lab")]
 [assembly: AssemblyCopyright("Copyright (c) 2026 Polsct, MIT License")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]
+[assembly: AssemblyInformationalVersion("1.0.1")]
 
 internal static class MSLVersion
 {
-    public const string Text = "1.0.0";
+    public const string Text = "1.0.1";
 }

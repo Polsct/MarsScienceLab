@@ -3,7 +3,7 @@
 Mars Science Laboratory (2011–2012) for KSP 1.12: cruise stage, aeroshell, Sky Crane and the Curiosity rover, built
 at true size from public sources. Entry, descent and landing fly themselves.
 
-**Version:** 1.0.0 · **Author:** Polsct · **License:** MIT, see [LICENSE.md](MarsScienceLab/LICENSE.md)
+**Version:** 1.0.1 · **Author:** Polsct · **License:** MIT, see [LICENSE.md](MarsScienceLab/LICENSE.md)
 
 ## Requirements
 
