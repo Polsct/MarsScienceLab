@@ -28,7 +28,7 @@ namespace MSLCuriosity
         Transform[] owned;
         public bool IsWheel{get{return link=="Wheel";}}
         // The rover link this part provides: the wheel link of the node it sits on (node WheelFL -> Wheel_FL; KSP node
-        // ids cannot hold '_', rover_components.node_id), else the link itself.
+        // ids cannot hold '_'), else the link itself.
         public string Instance
         {
             get

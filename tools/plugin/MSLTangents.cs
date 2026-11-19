@@ -1,4 +1,4 @@
-// Load-time tangent rule shared by MSLModelStorage and its regression test: Lengyel accumulation over all
+// Load-time tangent rule shared by MSLModelStorage: per-triangle accumulation over all
 // triangles, Gram-Schmidt against the normal; singular UVs get a stable perpendicular tangent.
 namespace MSLAeroshell
 {
@@ -23,8 +23,7 @@ namespace MSLAeroshell
                 sdir[f*3]=(e1x*d2y-e2x*d1y)*r;sdir[f*3+1]=(e1y*d2y-e2y*d1y)*r;sdir[f*3+2]=(e1z*d2y-e2z*d1y)*r;
                 tdir[f*3]=(e2x*d1x-e1x*d2x)*r;tdir[f*3+1]=(e2y*d1x-e1y*d2x)*r;tdir[f*3+2]=(e2z*d1x-e1z*d2x)*r;
             }
-            // Accumulate corner by corner (all first corners, then second, third),
-            // the same summation order as numpy add.at in mu_storage.
+            // Accumulate corner by corner (all first corners, then second, third); keep this order, the float rounding depends on it.
             for(int corner=0;corner<3;corner++)
                 for(int f=0;f<triangles;f++)
                 {

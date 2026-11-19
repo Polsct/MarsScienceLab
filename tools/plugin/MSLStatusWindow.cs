@@ -681,7 +681,7 @@ namespace MSLAeroshell
         {
             ModuleMSLEntryGuidance g = guidance;
             bool setup = g.panelEntry && !g.guidanceEnabled, flying = g.panelEntry && g.guidanceEnabled;
-            // the flight phases (range control, lift up, heading alignment, manual bank) are not described here;
+            // the flight phases (entry attitude pre-bank, range control, heading alignment, manual bank) are not described here;
             // the faults still are
             if ((g.guidanceEnabled || g.status != T("#MSL_Aeroshell_UI_off")) && !RoutinePhase(g.status)) GUILayout.Label(g.status, note);
             if (setup)
@@ -720,7 +720,6 @@ namespace MSLAeroshell
             }
         }
 
-        // also with the MechJeb suffix ("<<1>> via MechJeb" keeps the phase text first)
         static bool RoutinePhase(string s)
         {
             return s.StartsWith(T("#MSL_Aeroshell_UI_range_control_RCS"), StringComparison.Ordinal)

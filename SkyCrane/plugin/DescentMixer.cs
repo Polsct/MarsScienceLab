@@ -1,5 +1,4 @@
-// Reusable work buffers for the original four-constraint MLE thrust mixer.
-// Pure arithmetic so the flight implementation can be regression-tested off-line.
+// Reusable work buffers for the four-constraint MLE thrust mixer. Pure arithmetic, no KSP types.
 using System;
 
 namespace MSLSkyCrane

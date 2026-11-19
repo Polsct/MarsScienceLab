@@ -12,7 +12,7 @@ namespace MSLCuriosity
         [KSPField(isPersistant=true)] public bool deployed=true;
         // Cruise stow: wheels folded as packed in the aeroshell; mobility deploys to the touchdown pose over deployTime.
         [KSPField(isPersistant=true)] public bool stowed=false;
-        [KSPField] public float deployTime=6f; // s [GAME]; flight mobility deploy duration not modelled
+        [KSPField] public float deployTime=6f; // s [GAME], cruise stow to touchdown pose
         float deployT=-1f;
         [KSPField(guiActive=true,guiName="#MSL_Curiosity_UI_Rig",groupName="rig",groupDisplayName="#MSL_Curiosity_UI_grp_Rig")] public string status=MSL.Localization.Text.Get("#MSL_Curiosity_UI_offline_build_physics_off");
         // VAB: one pose selector in place of three pose buttons; not saved, read back
@@ -66,9 +66,9 @@ namespace MSLCuriosity
         // The arm and mast are never rigid bodies: their joints turn kinematically (JointServo).
         bool Dynamic(Link l){return l.mass>0 && !l.Kinematic;}
         [KSPField] public float powerECs=.12f; // GAME 1 EC = 1 kJ approximation
-        // Rocker differential residual, for tests; not shown.
+        // Rocker differential residual, diagnostic; not shown.
         [KSPField] public float differentialError;
-        // Rocker / bogie hinge rate for tests: sums of squared rate and of its per-step change ((deg/s)^2), sample count.
+        // Rocker / bogie hinge rate, diagnostic: sums of squared rate and of its per-step change ((deg/s)^2), sample count.
         public float suspRateSq,suspJerkSq;public int suspSamples;
         class Link
         {
@@ -170,7 +170,7 @@ namespace MSLCuriosity
             FindDrill();
             if(stowed)SetCruise();else if(!MobilityDeploying)SetPose(deployed);
         }
-        // Joint sliders take their ranges from the LINK min/max (curiosity_spec.LIMITS), not the attribute defaults.
+        // Joint sliders take their ranges from the LINK min/max, not the attribute defaults.
         static readonly Dictionary<string,string> sliders=new Dictionary<string,string>{
             {"Arm_Azimuth","shoulderAz"},{"Arm_Elevation","shoulderEl"},{"Arm_Elbow","elbow"},{"Arm_Wrist","wrist"},{"Arm_Turret","turret"},
             {"Mast_Fold","mastFold"},{"Mast_Yaw","mastAz"},{"Mast_Pitch","mastEl"},
@@ -216,7 +216,7 @@ namespace MSLCuriosity
             foreach(Link l in links)foreach(Collider c in l.t.GetComponentsInChildren<Collider>(true))c.enabled=on;
             foreach(ModuleCuriosityComponent m in Components())if(m.link=="")foreach(Collider c in m.part.GetComponentsInChildren<Collider>(true))c.enabled=on;
         }
-        // Pose events are hidden (the VAB uses editorPose); in flight the stack sequence, DeployMobility and EnableRig set the pose.
+        // CruisePose is hidden (the VAB uses editorPose); in flight the stack sequence, DeployMobility and EnableRig set the pose.
         [KSPEvent(guiActiveEditor=false,guiName="#MSL_Curiosity_UI_Set_cruise_stowed_pose_physics_off",groupName="rig",groupDisplayName="#MSL_Curiosity_UI_grp_Rig")]
         public void CruisePose(){SetCruise();}
         [KSPEvent(guiActive=true,guiName="#MSL_Curiosity_UI_Deploy_mobility_cruise_to_touchdown",groupName="rig",groupDisplayName="#MSL_Curiosity_UI_grp_Rig")]
@@ -236,10 +236,6 @@ namespace MSLCuriosity
             part.Effect("mslServo",u>=1f?0f:.6f);
             if(u>=1f)SetPose(false);
         }
-        [KSPEvent(guiActiveEditor=false,guiName="#MSL_Curiosity_UI_Set_surface_pose_physics_off",groupName="rig",groupDisplayName="#MSL_Curiosity_UI_grp_Rig")]
-        public void SurfacePose(){SetPose(true);}
-        [KSPEvent(guiActiveEditor=false,guiName="#MSL_Curiosity_UI_Set_touchdown_pose_physics_off",groupName="rig",groupDisplayName="#MSL_Curiosity_UI_grp_Rig")]
-        public void TouchdownPose(){SetPose(false);}
         [KSPEvent(guiActive=true,guiName="#MSL_Curiosity_UI_Enable_experimental_articulated_physics",groupName="rig",groupDisplayName="#MSL_Curiosity_UI_grp_Rig")]
         public void EnableRig()
         {
@@ -384,7 +380,7 @@ namespace MSLCuriosity
         }
         // the ground stopped the arm this step / for this long (s)
         bool armBlocked;float armBlockedT;
-        // for tests: joint angle (NaN without the link), the ground holding the arm
+        // diagnostic: joint angle (NaN without the link), the ground holding the arm
         public float JointAngle(string name){Link l;return byName.TryGetValue(name,out l)?l.angle:float.NaN;}
         public bool ArmGrounded{get{return armBlockedT>0f;}}
         void GroundGuard(float before)
@@ -539,8 +535,8 @@ namespace MSLCuriosity
         // ---- Drill animation (visual only): Drill_Feed moves along the bit axis, its child Drill_Bit spins; local -Z is out
         // of the drill. Feed to the rock, then rotary-percussive down to drillDepth; sieving runs the percussor alone.
         // Model metres, scaled with the part.
-        [KSPField] public float drillRpm=120f;          // ESTIMATE
-        [KSPField] public float drillContact=.045f;     // m: stroke from rest to the stabilizer plane (model probe)
+        [KSPField] public float drillRpm=120f;          // estimate
+        [KSPField] public float drillContact=.045f;     // m: stroke from rest to the stabilizer plane
         [KSPField] public float drillDepth=.05f;        // m: hole depth
         [KSPField] public float drillFeedSpeed=.03f;    // m/s [GAME] approach / retract
         [KSPField] public float drillHammer=.0008f;     // m: percussion jitter
@@ -603,7 +599,7 @@ namespace MSLCuriosity
             if(part.rb!=null)part.rb.mass=BodyMass();
             if(dirty)Rebuild();else KeepPose();status=MSL.Localization.Text.Get(rigOn?"#MSL_Curiosity_UI_paused_resumes_on_unpack":"#MSL_Curiosity_UI_physics_off_packed_reload");
         }
-        // No menu button: the rig stays on; warp/rails still pause it (StopRig). Kept for code and tests.
+        // No menu button: the rig stays on; warp/rails still pause it (StopRig). Kept for code.
         [KSPEvent(guiActive=false,guiName="#MSL_Curiosity_UI_Disable_articulated_physics",groupName="rig",groupDisplayName="#MSL_Curiosity_UI_grp_Rig")]
         public void DisableRig(){rigOn=false;StopRig();}
         void OnRails(Vessel v){if(v==vessel)StopRig();}

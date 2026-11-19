@@ -20,9 +20,6 @@ namespace MSLSkyCrane
         [KSPField] public string engineID = "";
         [KSPField] public float maxSplit = 0.85f;           // [GAME] largest per-engine deviation from the even split
         [KSPField] public float authority = 1.0f;           // [GAME] fraction of the available torque used at full stick
-        // MLE differential-throttle attitude control: always on, no part-menu switch. Kept as a
-        // plain field for code (the auto landing sets it); forced on at start so an old save with it off cannot strand it.
-        [NonSerialized] public bool controlEnabled = true;
         [KSPField(guiName = "#MSL_SkyCrane_UI_MLE_split", guiFormat = "F2", groupName = "mslSkyCrane", groupDisplayName = "#MSL_SkyCrane_UI_grp_SkyCrane")] public float splitDisplay;
         // The stage's RCS (MSL_SC_RCS pairs) is the entry control system; it is disarmed while the MLEs burn under this
         // module (it would fight the throttle split) and re-armed when they stop.
@@ -48,7 +45,6 @@ namespace MSLSkyCrane
         public override void OnStart(StartState state)
         {
             base.OnStart(state);
-            controlEnabled = true;
             Collect();
             if (HighLogic.LoadedSceneIsFlight) GameEvents.onVesselWasModified.Add(OnModified);
         }
@@ -145,8 +141,8 @@ namespace MSLSkyCrane
             List<float> m = singlePart ? engines[0].thrustTransformMultipliers : null;
             if (singlePart && (m == null || m.Count != n)) return;
             bool burning = overrideThrottle.HasValue ? Ignited() : Burning();
-            HoldRcs(holdRcsInPoweredFlight && controlEnabled && burning);
-            if (!controlEnabled || !burning)
+            HoldRcs(holdRcsInPoweredFlight && burning);
+            if (!burning)
             {
                 if (singlePart) for (int i = 0; i < n; i++) m[i] = 1f / n;
                 else ReleaseThrottles();
@@ -188,13 +184,11 @@ namespace MSLSkyCrane
         }
 
         // Disarm the stage's RCS while powered (remembering which modules were armed), re-arm them after. The thrusters
-        // are the MSL_SC_RCS pairs on the stage nodes; a stage of older saves carries them itself.
+        // are the MSL_SC_RCS pairs on the stage nodes.
         void HoldRcs(bool hold)
         {
             if (hold)
             {
-                foreach (ModuleRCS r in part.FindModulesImplementing<ModuleRCS>())
-                    if (r.rcsEnabled) { r.rcsEnabled = false; heldRcs.Add(r); }
                 foreach (Part c in part.children)
                     if (c.partInfo != null && c.partInfo.name == "MSL.SC.RCS")
                         foreach (ModuleRCS r in c.FindModulesImplementing<ModuleRCS>())
@@ -211,7 +205,7 @@ namespace MSLSkyCrane
         public void GetPotentialTorque(out Vector3 pos, out Vector3 neg)
         {
             pos = neg = Vector3.zero;
-            if (n == 0 || vessel == null || !controlEnabled || !Burning()) return;
+            if (n == 0 || vessel == null || !Burning()) return;
             Vector3[] a = UnitArms();
             Transform rt = vessel.ReferenceTransform;
             Vector3 sum = Vector3.zero;
@@ -322,19 +316,20 @@ namespace MSLSkyCrane
         [KSPField] public string exitTransform = "bridleExit";
         [KSPField] public string tipTransforms = "bridleTip_1,bridleTip_2,bridleTip_3";
         [KSPField] public float bridleLength = 7.5f;        // m
-        [KSPField] public float payoutRate = 0.75f;         // m/s, ESTIMATE (skycrane_spec bridle.payout_rate)
+        [KSPField] public float payoutRate = 0.75f;         // m/s (estimated)
         [KSPField] public float spring = 120f;              // kN/m per bridle [GAME] (braided nylon stretch not modelled)
         [KSPField] public float damper = 12f;               // kN*s/m per bridle [GAME]
-        [KSPField] public float lineWidth = 0.014f;         // m, bridle diameter (skycrane_spec)
+        [KSPField] public float lineWidth = 0.014f;         // m, bridle diameter
         // Umbilical from the device exit (umbilicalExit) to the rover deck (umbilicalTip): a coiled cable that keeps its curl
         // when paid out. Drawn only, no load. After the cut a break-tie holds the rover end until the stage pulls it out,
         // then it retracts to the device.
         [KSPField] public string umbilicalExitTransform = "umbilicalExit";
         [KSPField] public string umbilicalTipTransform = "umbilicalTip";
+        [KSPField] public string roverUmbilicalTransform = "umbilicalAttach";  // tie point on the rover model, when it has one
         [KSPField] public float umbilicalWidth = 0.0127f;   // m
-        [KSPField] public float umbilicalExtra = 0.3f;      // m longer than the bridles, ESTIMATE ("slightly longer")
-        [KSPField] public float curlRadius = 0.05f;         // m, least curl radius (coil set), ESTIMATE
-        [KSPField] public float curlPitch = 0.3f;           // m per curl, ESTIMATE
+        [KSPField] public float umbilicalExtra = 0.3f;      // m longer than the bridles ("slightly longer", estimated)
+        [KSPField] public float curlRadius = 0.05f;         // m, least curl radius (coil set) (estimated)
+        [KSPField] public float curlPitch = 0.3f;           // m per curl (estimated)
         // All three bridles meet at one exit, so the hanging rover has no yaw stiffness of its own; a twist spring about the
         // bridle axis stands in for it: period s, damping ratio [GAME].
         [KSPField] public float twistPeriod = 4f;
@@ -396,7 +391,9 @@ namespace MSLSkyCrane
             if (rover == null) { status = MSL.Localization.Text.Get("#MSL_SkyCrane_UI_no_rover_attached"); return; }
             roverAnchors.Clear();
             foreach (Transform t in tips) roverAnchors.Add(rover.transform.InverseTransformPoint(t.position));
-            if (umbTip != null) roverUmbilical = rover.transform.InverseTransformPoint(umbTip.position);
+            Transform tie = string.IsNullOrEmpty(roverUmbilicalTransform) ? null : rover.FindModelTransform(roverUmbilicalTransform);
+            if (tie != null) roverUmbilical = rover.transform.InverseTransformPoint(tie.position);
+            else if (umbTip != null) roverUmbilical = rover.transform.InverseTransformPoint(umbTip.position);
             ModuleDecouple dec = null;
             foreach (ModuleDecouple d in part.FindModulesImplementing<ModuleDecouple>())
                 if (d.explosiveNodeID == "bottom") dec = d;

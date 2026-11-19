@@ -1,7 +1,6 @@
 // Entry guidance: bank steering with a numerical range predictor, crossrange reversals, heading alignment and
-// balance-mass release. A game implementation, not the flight gains. Attitude commands go through ModuleRCS only.
-// With mechJebAttitudeCfg = true and MechJeb2 installed, the target attitude goes to MechJeb (found by reflection);
-// otherwise the built-in rate controller flies it.
+// balance-mass release. A game implementation, not the flight gains. The built-in rate controller flies the attitude
+// through ModuleRCS only.
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,15 +10,13 @@ namespace MSLAeroshell
     public class ModuleMSLEntryGuidance : PartModule
     {
         [KSPField(isPersistant=true)] public bool guidanceEnabled;
-        // No part-menu rows: the toolbar control panel (MSLStatusWindow) sets and shows everything;
-        // the group names stay for the readout fields' metadata.
+        // No part-menu rows: target, buttons and manual bank are in the toolbar control panel (MSLStatusWindow); the group
+        // names stay for the readout fields' metadata.
         const string G="mslGuidance",GN="#MSL_Aeroshell_UI_grp_Guidance",T="mslEntryData",TN="#MSL_Aeroshell_UI_grp_Telemetry";
         [KSPField(guiName="#MSL_Aeroshell_UI_Guidance_status")] public string status=MSL.Localization.Text.Get("#MSL_Aeroshell_UI_off");
-        // No part menu: target, buttons and manual bank are in the toolbar control panel (MSLStatusWindow).
         [KSPField(isPersistant=true,guiName="#MSL_Aeroshell_UI_Target_latitude")] public float targetLatitude=-4.5895f;
         [KSPField(isPersistant=true,guiName="#MSL_Aeroshell_UI_Target_longitude")] public float targetLongitude=137.4417f;
         [KSPField] public float trimAoA=16f;
-        [KSPField] public float nominalLiftDrag=.24f;
         [KSPField] public float referenceArea=15.904f;
         [KSPField] public bool autoEntryMassRelease=true;
         // Entry balance masses leave below this speed. Earlier release adds lift below 1100 m/s, where only the heading is
@@ -27,9 +24,6 @@ namespace MSLAeroshell
         [KSPField] public float entryMassReleaseSpeed=800f;
         // Bank steering for range above this speed, heading alignment below.
         [KSPField] public float headingAlignmentSpeed=1100f;
-        // Bank reversal corridor: |crossrange| beyond max(min, fraction * range), used when reversalDeadbandQuad is 0.
-        [KSPField] public float reversalCorridorMin=1000f;
-        [KSPField] public float reversalCorridorFraction=.025f;
         // Reversal deadband: crossrange central angle a + b v^2 (deg, v in m/s), narrowing as the vehicle slows, tighter by
         // firstReversalScale until the first reversal. [GAME] 0.005 / 5e-9 / 0.5 = 7.7 km at 5000 m/s, 0.65 km at 1100.
         [KSPField] public float reversalDeadbandConst=.005f;
@@ -44,9 +38,6 @@ namespace MSLAeroshell
         double settledSince=-1;
         [KSPField(isPersistant=true,guiName="#MSL_Aeroshell_UI_Manual_bank")] public bool manualBank;
         [KSPField(isPersistant=true,guiName="#MSL_Aeroshell_UI_Manual_bank_angle")] public float manualBankAngle;
-        // MechJeb attitude: cfg-only, off. In game MechJeb 2.15.3.1 takes the target
-        // but fires no RCS and the capsule tumbles, so entry attitude is always the built-in RCS controller (no menu switch).
-        [KSPField] public bool mechJebAttitudeCfg;
         [KSPField(isPersistant=true,guiName="#MSL_Aeroshell_UI_Bank_command",guiFormat="F1",guiUnits="°",groupName=T,groupDisplayName=TN,groupStartCollapsed=true)] public float bankCommand;
         [KSPField(guiName="#MSL_Aeroshell_UI_Measured_bank",guiFormat="F1",guiUnits="°",groupName=T,groupDisplayName=TN,groupStartCollapsed=true)] public float measuredBank;
         [KSPField(guiName="#MSL_Aeroshell_UI_Measured_AoA",guiFormat="F1",guiUnits="°",groupName=T,groupDisplayName=TN,groupStartCollapsed=true)] public float measuredAoA;
@@ -103,10 +94,6 @@ namespace MSLAeroshell
         System.Reflection.FieldInfo chuteDeployed;
         ModuleMSLParachute fallbackChute;   // no RealChute: the plugin's own parachute module
         Vessel hooked;
-        Vessel mjVessel;
-        object mjAttitude, mjInertial, mjUsers;
-        System.Reflection.MethodInfo mjTo, mjOff, mjRemoveUser;
-        bool mjActive;
         Quaternion wanted;
         double nextGuidance;
         float bankMagnitude=65f;
@@ -163,7 +150,7 @@ namespace MSLAeroshell
             bankCommand=heldBank=CurrentBank();
         }
         [KSPEvent(guiActive=false,guiName="#MSL_Aeroshell_UI_Disable_guidance")]
-        public void DisableGuidance(){guidanceEnabled=false;status=MSL.Localization.Text.Get("#MSL_Aeroshell_UI_off");Unhook();ReleaseMechJeb();}
+        public void DisableGuidance(){guidanceEnabled=false;status=MSL.Localization.Text.Get("#MSL_Aeroshell_UI_off");Unhook();}
         [KSPAction("#MSL_Aeroshell_UI_Enable_MSL_entry_guidance")] public void EnableAction(KSPActionParam p){EnableGuidance();}
         [KSPAction("#MSL_Aeroshell_UI_Disable_MSL_entry_guidance")] public void DisableAction(KSPActionParam p){DisableGuidance();}
         [KSPEvent(guiActive=false,guiName="#MSL_Aeroshell_UI_Jettison_two_cruise_balance_masses")]
@@ -312,7 +299,7 @@ namespace MSLAeroshell
         {
             if(!HighLogic.LoadedSceneIsFlight || vessel==null)return;
             entryMasses=Count("MSL.EBMD");
-            if(!guidanceEnabled){Unhook();ReleaseMechJeb();return;}
+            if(!guidanceEnabled){Unhook();return;}
             // The parachute may be deployed by a player or an action group. Stop
             // steering as soon as the canopy is out, including after reload.
             if(ChuteOut())
@@ -329,10 +316,7 @@ namespace MSLAeroshell
             if(vessel.GetReferenceTransformPart()!=controlPart)vessel.SetReferenceTransform(controlPart);
             if(vessel.ActionGroups[KSPActionGroup.SAS])vessel.ActionGroups.SetGroup(KSPActionGroup.SAS,false);
             if(!vessel.ActionGroups[KSPActionGroup.RCS])vessel.ActionGroups.SetGroup(KSPActionGroup.RCS,true);
-            bool useMechJeb=mechJebAttitudeCfg && FindMechJeb();
-            if(!useMechJeb)ReleaseMechJeb();
-            if(useMechJeb)Unhook();
-            else if(hooked!=vessel){Unhook();hooked=vessel;hooked.OnFlyByWire+=Steer;}
+            if(hooked!=vessel){Unhook();hooked=vessel;hooked.OnFlyByWire+=Steer;}
             if(vessel.srfSpeed<10)return;
             Vector3 velocity=((Vector3)vessel.srf_velocity).normalized;
             Vector3 up=((Vector3)(vessel.CoMD-vessel.mainBody.position)).normalized;
@@ -383,9 +367,7 @@ namespace MSLAeroshell
                 EntryRangeState prediction=PredictionState(vessel.GetTotalMass()*1000);
                 bankMagnitude=SolveBank(prediction,range);
                 predictedKm=(float)(EntryRangePredictor.Predict(prediction,bankMagnitude,densityAtAltitude)/1000);
-                double corridor=reversalDeadbandQuad>0
-                    ?vessel.mainBody.Radius*(reversalDeadbandConst+reversalDeadbandQuad*vessel.srfSpeed*vessel.srfSpeed)*Math.PI/180*(bankReversals==0?firstReversalScale:1)
-                    :Math.Max(reversalCorridorMin,range*reversalCorridorFraction);
+                double corridor=vessel.mainBody.Radius*(reversalDeadbandConst+reversalDeadbandQuad*vessel.srfSpeed*vessel.srfSpeed)*Math.PI/180*(bankReversals==0?firstReversalScale:1);
                 int sign=crossrange>=0?1:-1;
                 if(Math.Abs(crossrange)>corridor && sign!=bankSign){bankSign=sign;bankReversals++;}
             }
@@ -411,49 +393,6 @@ namespace MSLAeroshell
             Vector3 side=Vector3.ProjectOnPlane(baseRot*balanceAxis,nose).normalized;
             Vector3 targetSide=Vector3.ProjectOnPlane(lift,nose).normalized;
             wanted=Quaternion.AngleAxis(Vector3.SignedAngle(side,targetSide,nose),nose)*baseRot;
-            if(useMechJeb)
-            {
-                // MechJeb attitude = control-point rotation with its forward on the transform's up axis.
-                Quaternion reference=wanted*(Quaternion.Inverse(part.transform.rotation)*vessel.ReferenceTransform.rotation);
-                Quaternion mjTarget=reference*Quaternion.Euler(-90,0,0);
-                mjTo.Invoke(mjAttitude,new object[]{new QuaternionD(mjTarget.x,mjTarget.y,mjTarget.z,mjTarget.w),mjInertial,this,true,true,true});
-                mjActive=true;
-                status=string.Format(MSL.Localization.Text.Pattern("#MSL_Aeroshell_UI_via_MechJeb"),status);
-            }
-        }
-
-        bool FindMechJeb()
-        {
-            if(mjVessel==vessel)return mjAttitude!=null;
-            mjVessel=vessel;mjAttitude=null;
-            foreach(Part p in vessel.parts)
-                foreach(PartModule m in p.Modules)
-                {
-                    if(m.GetType().Name!="MechJebCore")continue;
-                    var field=m.GetType().GetField("Attitude");
-                    object attitude=field!=null?field.GetValue(m):null;
-                    if(attitude==null)continue;
-                    Type t=attitude.GetType();
-                    foreach(var mi in t.GetMethods())
-                    {
-                        var ps=mi.GetParameters();
-                        if(mi.Name=="attitudeTo" && ps.Length==6 && ps[0].ParameterType==typeof(QuaternionD))
-                        {mjTo=mi;mjInertial=Enum.Parse(ps[1].ParameterType,"INERTIAL");}
-                    }
-                    mjOff=t.GetMethod("attitudeDeactivate",Type.EmptyTypes);
-                    var users=t.GetField("Users");
-                    mjUsers=users!=null?users.GetValue(attitude):null;
-                    mjRemoveUser=mjUsers!=null?mjUsers.GetType().GetMethod("Remove",new[]{typeof(object)}):null;
-                    if(mjTo!=null){mjAttitude=attitude;return true;}
-                }
-            return false;
-        }
-        void ReleaseMechJeb()
-        {
-            if(!mjActive || mjAttitude==null)return;
-            mjActive=false;
-            if(mjRemoveUser!=null)mjRemoveUser.Invoke(mjUsers,new object[]{this});
-            if(mjOff!=null)mjOff.Invoke(mjAttitude,null);
         }
 
         void Steer(FlightCtrlState state)
@@ -495,7 +434,7 @@ namespace MSLAeroshell
         {
             GameEvents.onVesselWasModified.Remove(InvalidateTopology);
             GameEvents.onVesselGoOffRails.Remove(InvalidateTopology);
-            Unhook();ReleaseMechJeb();
+            Unhook();
         }
     }
 }

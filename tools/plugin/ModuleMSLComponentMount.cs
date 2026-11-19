@@ -515,9 +515,9 @@ namespace MSLAeroshell
     [KSPAddon(KSPAddon.Startup.EditorAny, false)]
     public class MSLEditorPickThrough : MonoBehaviour
     {
-        // test hook: a pointer ray to use instead of the mouse
+        // when set, a pointer ray used instead of the mouse
         public static Ray? TestRay;
-        // why the last Find did or did not switch colliders off (QA log)
+        // why the last Find did or did not switch colliders off (diagnostic)
         public static string Why = "";
         readonly HashSet<Collider> off = new HashSet<Collider>();
         readonly List<Collider> want = new List<Collider>();
@@ -565,9 +565,9 @@ namespace MSLAeroshell
             TimingManager.TimingStage.Early, TimingManager.TimingStage.Earlyish, TimingManager.TimingStage.Normal,
             TimingManager.TimingStage.FashionablyLate, TimingManager.TimingStage.Late, TimingManager.TimingStage.BetterLateThanNever,
         };
-        // test hook: a pointer ray to use instead of the mouse
+        // when set, a pointer ray used instead of the mouse
         public static Ray? TestRay;
-        // why the last ray test did or did not retarget the pick (QA log)
+        // why the last ray test did or did not retarget the pick (diagnostic)
         public static string Why = "";
         readonly List<Collider> enclosing = new List<Collider>();
         readonly List<Part> components = new List<Part>();

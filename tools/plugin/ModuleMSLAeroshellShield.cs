@@ -1,6 +1,6 @@
 // Closed aeroshell payload shielding through the stock cargo-bay contract, recomputed on load/unpack and attachment
-// changes; the payload is exposed as soon as either shell separates. While closed, payload meshes wholly inside the
-// shell leave the re-entry FX layer, and with hideEnclosedPayload (off by default) are not drawn at all.
+// changes; the payload is exposed as soon as either shell separates. While closed, every payload mesh leaves the
+// re-entry FX layer; with hideEnclosedPayload (off by default) the ones wholly inside the shell are not drawn at all.
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,14 +13,13 @@ namespace MSLAeroshell
         [KSPField] public float maxPayloadRadius = 2.1f;
         [KSPField] public float minPayloadY = -1.33f;
         [KSPField] public float maxPayloadY = 0.55f;
-        // Backshell OML in this part's frame (y = 0 at the seal) and the inset a mesh must keep to count as enclosed (shell
-        // thickness plus clearance, so RCS heads in their holes stay drawn). The heat shield side needs no margin.
         [KSPField] public bool hideEnclosedPayload = false;
         [KSPField] public bool enclosedNoFlame = true;
-        // While the shell is closed the flame proxy draws the whole capsule's flames, so every payload mesh leaves the FX
-        // layer, not only the wholly enclosed ones: 65 of 501 payload meshes failed the enclosure test and drew a
-        // rover-shaped flame on the heat shield (2026-11-17, which meshes and why not yet checked).
+        // While the shell is closed the flame proxy draws the whole capsule's flames, and every payload mesh leaves the FX
+        // layer, not only the wholly enclosed ones, so no payload flame shows through the closed shell.
         [KSPField] public bool allPayloadNoFlame = true;
+        // Backshell OML in this part's frame (y = 0 at the seal) and the inset a mesh must keep to count as enclosed (shell
+        // thickness plus clearance, so RCS heads in their holes stay drawn). The heat shield side needs no margin.
         [KSPField] public float sealRadius = 2.2248f;
         [KSPField] public float hipY = -0.9049f;
         [KSPField] public float hipRadius = 1.5429f;
@@ -65,7 +64,6 @@ namespace MSLAeroshell
         [KSPField] public int proxyTriangles = 10000;
         [KSPField] public int proxySegments = 96;
         [KSPField] public string proxyProfile = "0.4088,0.0000;0.4079,0.0294;0.4054,0.0587;0.4011,0.0878;0.3952,0.1166;0.3875,0.1450;0.3783,0.1729;0.0850,0.9784;0.0807,0.9860;0.0754,0.9929;0.0690,0.9989;0.0618,1.0038;0.0539,1.0076;0.0455,1.0101;0.0369,1.0112;0.0281,1.0110;0.0195,1.0095;0.0113,1.0066;0.0036,1.0025;-0.4067,0.6935;-0.6155,0.3457;-0.6497,0.2863;-0.8596,0.1717;-0.8596,0.0000";
-        // Pockets of the balance masses are left out of the proxy (within proxyPocketRadius of nodes named proxyPocketNodes).
         // Proxy scale-up about its middle, so it lies just outside the faceted real skin (0 gives patchy flames).
         [KSPField] public float proxyInflate = 0.02f;
         // The proxy ends at this y (seal radii, backshell frame) and is open behind it; the real backshell still occludes.
@@ -84,6 +82,7 @@ namespace MSLAeroshell
             }
             return fireflyInstalled.Value;
         }
+        // Pockets of the balance masses are left out of the proxy (within proxyPocketRadius of nodes named proxyPocketNodes).
         [KSPField] public string proxyPocketNodes = "ebmd";
         [KSPField] public float proxyPocketRadius = 0.035f;
         GameObject proxy;
@@ -390,7 +389,7 @@ namespace MSLAeroshell
             if (pockets > 0) Debug.Log("[MSLAeroshell] flame proxy: " + cut + " triangles left out over " + pockets + " balance-mass pockets");
         }
 
-        // Closest point of triangle abc to p (Ericson, Real-Time Collision Detection 5.1.5).
+        // Closest point of triangle abc to p (barycentric Voronoi regions).
         static Vector3 ClosestOnTriangle(Vector3 p, Vector3 a, Vector3 b, Vector3 c)
         {
             Vector3 ab = b - a, ac = c - a, ap = p - a;
@@ -592,7 +591,6 @@ namespace MSLAeroshell
                 poses[mr] = m;
                 moved++;
                 bool hide = (allPayloadNoFlame && !hideEnclosedPayload) || Enclosed(m, candidateMeshes[i]);
-                if (allPayloadNoFlame && reportedOutside.Add(mr.name)) ReportOutside(mr, m, candidateMeshes[i]);
                 if (hide == hidden.Contains(mr)) continue;
                 if (hideEnclosedPayload) mr.forceRenderingOff = hide;
                 if (hide) { hidden.Add(mr); HideLayer(mr); } else { hidden.Remove(mr); RestoreLayer(mr); }
@@ -675,31 +673,6 @@ namespace MSLAeroshell
             }
         }
 
-        // Bounds corners first (cheap, conservative); a mesh whose box pokes out is
-        // tested vertex by vertex, once per shell closure.
-        // Log-only diagnostic: why a payload mesh fails the enclosure test (once per mesh name per flight).
-        readonly HashSet<string> reportedOutside = new HashSet<string>();
-        void ReportOutside(MeshRenderer mr, Matrix4x4 m, Mesh mesh)
-        {
-            if (Enclosed(m, mesh)) return;
-            Part owner = mr.GetComponentInParent<Part>();
-            string who = (owner != null ? owner.partInfo.name : "?") + "/" + mr.name;
-            if (!mesh.isReadable) { Debug.Log("[MSLAeroshell] not enclosed: " + who + " (mesh not readable, its bounds box crosses the shell)"); return; }
-            mesh.GetVertices(vertices);
-            int bad = 0; Vector3 worst = Vector3.zero; float over = -1f;
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                Vector3 l = m.MultiplyPoint3x4(vertices[i]);
-                if (Inside(l)) continue;
-                bad++;
-                float r = Mathf.Sqrt(l.x * l.x + l.z * l.z), d = r - Wall(l.y);
-                if (d > over) { over = d; worst = l; }
-            }
-            Debug.Log(string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                "[MSLAeroshell] not enclosed: {0} {1} of {2} vertices outside, worst y {3:F3} r {4:F3} wall {5:F3} (over by {6:F3} m)",
-                who, bad, vertices.Count, worst.y, Mathf.Sqrt(worst.x * worst.x + worst.z * worst.z), Wall(worst.y), over));
-        }
-
         // Allowed radius at height y (negative when y is past the forebody cone tip or behind the BIP).
         float Wall(float y)
         {
@@ -709,6 +682,8 @@ namespace MSLAeroshell
             return -1f;
         }
 
+        // Bounds corners first (cheap, conservative); a mesh whose box pokes out is
+        // tested vertex by vertex, once per shell closure.
         bool Enclosed(Matrix4x4 m, Mesh mesh)
         {
             Bounds b = mesh.bounds;

@@ -16,7 +16,7 @@ namespace MSLAeroshell
 {
     public class ModuleMSLCruiseRCS : ModuleRCSFX
     {
-        [KSPField] public bool balanced = true;       // false: plain stock ModuleRCS allocation (A/B tests)
+        [KSPField] public bool balanced = true;       // false: plain stock ModuleRCS allocation (for comparison)
         [KSPField] public float forceWeight = 1f;     // 1/N in the cost, against 1/(N m) for torque
         [KSPField] public float throttleCost = 3e-3f;  // linear fuel cost (x torqueRef^2): no zero-wrench counter-firing
         [KSPField] public float commandScale = 0.8f;   // full stick = 0.8 of one full couple, so the target stays reachable

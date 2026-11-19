@@ -205,7 +205,7 @@ namespace MSLAeroshell
         static readonly Regex Ship = new Regex(@"^(ship = )(.+)$");
         static readonly Regex Size = new Regex(@"^(size = )(.+)$");
 
-        // as make_stock_scale.scale_craft: pos about the root part, attPos / attPos0, attN node offsets and size x s
+        // pos about the root part, attPos / attPos0, attN node offsets and size x s
         static string ScaleCraft(string text, double s, string suffix)
         {
             string[] lines = text.Replace("\r\n", "\n").Split('\n');

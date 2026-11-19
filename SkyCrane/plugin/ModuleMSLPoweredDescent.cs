@@ -176,7 +176,6 @@ namespace MSLSkyCrane
 
         void Ignite()
         {
-            ctl.controlEnabled = true;
             foreach (ModuleEngines e in ctl.engines) if (e != null && !e.EngineIgnited) e.Activate();
             ctl.overrideThrottle = 0.6f;
             rover = FindRover();
